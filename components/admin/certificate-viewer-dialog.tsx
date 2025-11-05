@@ -24,7 +24,7 @@ export function CertificateViewerDialog({ donation, onClose }: CertificateViewer
   }
 
   const isPdf = donation.certificate_url.endsWith(".pdf") || donation.certificate_url.includes("pdf")
-  const fileName = donation.certificate_url.split("/").pop() || "proof"
+  const fileName = donation.certificate_url.split("/").pop() || "cert"
 
   return (
     <Dialog open onOpenChange={onClose}>

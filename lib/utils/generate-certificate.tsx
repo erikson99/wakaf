@@ -7,7 +7,7 @@ export async function generateCertificate(donorName: string, qty: number, amount
     const supabase = await createAdminClient()
 
     // Load the template image
-    const templatePath = "./public/template2.jpg"
+    const templatePath = "./public/template.jpg"
     const template = await loadImage(templatePath);
 
     // Create canvas with same dimensions as template

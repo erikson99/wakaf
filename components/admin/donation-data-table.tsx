@@ -121,7 +121,7 @@ export function DonationDataTable({ initialData }: { initialData: Donation[] }) 
 //         console.log("Cert Caption:", certifyMessage);
 
     } catch (error) {
-      alert("Error certifying wakaf: " + (error instanceof Error ? error.message : "Unknown error"))
+      alert("Error generating wakaf: " + (error instanceof Error ? error.message : "Unknown error"))
     } finally {
       setGenerateCertificate(null)
     }

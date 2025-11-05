@@ -32,7 +32,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-4xl font-bold tracking-tight text-green-900 sm:text-5xl">Program Wakaf Masjid Qoryatussalam</h2>
+          <h2 className="text-4xl font-bold tracking-tight text-green-900 sm:text-5xl">Program Wakaf Tunai Masjid Qoryatussalam</h2>
           <p className="mt-4 text-xl text-gray-600">
             DKM Qoryatussalam kembali membuka ladang amal bagi para jamaah untuk mengikuti<br/> <strong>Wakaf Pembuatan Jendela Masjid Qoryatussalam Lantai 2</strong>.
           </p>

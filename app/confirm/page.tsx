@@ -115,10 +115,18 @@ export default function ConfirmPage() {
 
       console.log("Donation confirmed successfully")
       // alert("Wakaf berhasil dikonfirmasi!")
+      // Swal.fire({
+      //   title: "Konfirmasi Wakaf",
+      //   text: "Wakaf berhasil dikonfirmasi!",
+      //   icon: "success",
+      // });
       Swal.fire({
         title: "Konfirmasi Wakaf",
-        text: "Wakaf berhasil dikonfirmasi!",
-        icon: "success",
+        text: "Bukti Transfer berhasil di-upload!",
+        imageUrl: "/logo-dkmqs.png",
+        imageWidth: 100,
+        imageHeight: 100,
+        imageAlt: "Jazaakallaah",
       });
 
 
