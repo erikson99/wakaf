@@ -74,7 +74,7 @@ export function DonationDataTable({ initialData }: { initialData: Donation[] }) 
 
       const data = await response.json()
 
-      if (!response.ok) throw new Error(data.error || "Failed to certify donation")
+      if (!response.ok) throw new Error(data.error || "Failed to generate certificate!")
 
       setDonations((prev) =>
         prev.map((d) =>
@@ -181,7 +181,13 @@ _This is an automated message system. Please do not reply._`;
         image_url: donation.certificate_url,
       };
 
-      await axios.post(WAGW_SERVER + "/send/image", certifyMessage);
+      // await axios.post(WAGW_SERVER + "/send/image", certifyMessage);
+      await fetch('/wa/send/image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(certifyMessage),
+      })
+
       console.log("Certificate sent successfully")
 
     } catch (error) {
@@ -341,7 +347,7 @@ _This is an automated message system. Please do not reply._`;
                           className="gap-1 text-yellow-600 hover:text-yellow-700"
                         >
                           <ReceiptText className="h-4 w-4" />
-                          {generateCertificate === donation.id ? "Certifying..." : "Certify"}
+                          {generateCertificate === donation.id ? "Generating..." : "Generate"}
                         </Button>
                       )}
 
