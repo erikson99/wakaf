@@ -64,7 +64,7 @@ export function CertificateViewerDialog({ donation, onClose }: CertificateViewer
               <div className="relative h-64 w-full">
                 <Image
                   src={donation.certificate_url || "/placeholder.svg"}
-                  alt="Proof of transfer"
+                  alt="Wakaf Voucher"
                   fill
                   className="object-contain"
                 />

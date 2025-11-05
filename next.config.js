@@ -9,6 +9,16 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "azisvneewltxxvzwmrsm.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/**", // match all Supabase Storage paths
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

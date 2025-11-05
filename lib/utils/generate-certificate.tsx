@@ -10,6 +10,11 @@ export async function generateCertificate(donorName: string, qty: number, amount
     const templatePath = "./public/template.jpg"
     const template = await loadImage(templatePath);
 
+    // Load font
+    const font = new FontFace("Arial", "url(/fonts/Arial.ttf)")
+    await font.load()
+    document.fonts.add(font)
+
     // Create canvas with same dimensions as template
     const canvas = createCanvas(template.width, template.height);
     const ctx = canvas.getContext('2d');
