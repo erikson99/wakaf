@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/server-admin"
-import { createCanvas, loadImage } from "canvas";
+import { createCanvas, loadImage, registerFont } from "canvas";
+import path from "path"
 
 
 export async function generateCertificate(donorName: string, qty: number, amount: number, uniqueId: string): Promise<string | null> {
@@ -11,9 +12,7 @@ export async function generateCertificate(donorName: string, qty: number, amount
     const template = await loadImage(templatePath);
 
     // Load font
-    const font = new FontFace("Arial", "url(/fonts/Arial.ttf)")
-    await font.load()
-    document.fonts.add(font)
+    registerFont(path.join(process.cwd(), "public/fonts/Arial.ttf"), { family: "Arial" })
 
     // Create canvas with same dimensions as template
     const canvas = createCanvas(template.width, template.height);
