@@ -8,9 +8,12 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Program Wakaf - Masjid Qoryatussalam",
+  title: "Program Wakaf Tunai - Masjid Qoryatussalam",
   description: "Barangsiapa yang membangun MASJID ikhlas karena ALLAH maka ALLAH akan membangunkan baginya yang serupa dengannya di surga.",
-  generator: "TeamIT",
+  generator: "Panitia Pembangunan Masjid Qoryatussalam",
+  icons: {
+    icon: "/favicon.png", // ✅ relative to /public
+  },
 }
 
 export default function RootLayout({
