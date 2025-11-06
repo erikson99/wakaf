@@ -13,6 +13,7 @@ export async function generateCertificate(donorName: string, qty: number, amount
 
     // Load font
     registerFont(path.join(process.cwd(), "public/fonts/Arial.ttf"), { family: "Arial" })
+    registerFont(path.join(process.cwd(), "public/fonts/Arialbd.ttf"), { family: "Arial", weight: "bold" })
 
     // Create canvas with same dimensions as template
     const canvas = createCanvas(template.width, template.height);
