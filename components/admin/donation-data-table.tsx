@@ -178,6 +178,20 @@ _This is an automated message system. Please do not reply._`;
     }
   }
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Done":
+        return "text-blue-600";
+      case "Confirmed":
+        return "text-green-600";
+      case "New":
+        return "text-yellow-600";
+      default:
+        return "";
+    }
+  };
+
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 rounded-lg bg-white p-6 sm:flex-row sm:items-end">
@@ -243,14 +257,14 @@ _This is an automated message system. Please do not reply._`;
               </TableRow>
             ) : (
               paginatedDonations.map((donation, index) => (
-                <TableRow key={donation.id} className="border-b border-gray-200 hover:bg-gray-50">
-                  <TableCell className="px-6 py-4 text-sm font-mono text-gray-900">{((currentPage-1)*ITEMS_PER_PAGE)+(index+1)}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm font-mono text-gray-900">{donation.unique_id}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm text-gray-900">{donation.name}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm text-gray-600">{donation.address}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm text-gray-600">{donation.cellphone}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm text-right text-gray-900">{donation.quantity}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm text-right font-semibold text-gray-900">
+                <TableRow key={donation.id} className={`border-b border-gray-200 hover:bg-gray-50 ${getStatusColor(donation.status)}`}>
+                  <TableCell className="px-6 py-4 text-sm font-mono">{((currentPage-1)*ITEMS_PER_PAGE)+(index+1)}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm font-mono">{donation.unique_id}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm">{donation.name}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm">{donation.address}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm">{donation.cellphone}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm text-right font-semibold ">{donation.quantity}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm text-right font-semibold">
                     {donation.grand_total.toLocaleString("id-ID", { minimumFractionDigits: 0 })}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-sm">
