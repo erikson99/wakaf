@@ -56,7 +56,7 @@ Silakan *Transfer* ke:
 🧾 *7251571346*
 a.n. Pembangunan Masjid Qoryatussalam
 
-kemudian 📤 *Konfirmasi Transfer* ke: https://masjidqs.my.id/wakaf/confirm
+kemudian 📤 *Konfirmasi Transfer* ke: https://s.id/WakafTunaiQS
 dengan 🔒 *Kode Registrasi*: *${data.unique_id}*
 
 وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُاللَّهِ وَبَرَكَاتُهُ
@@ -64,19 +64,15 @@ dengan 🔒 *Kode Registrasi*: *${data.unique_id}*
 *Panitia Pembangunan Masjid Qoryatussalam*
 _This is an automated message system. Please do not reply._`;
 
-        // console.log("Register Template:", registerTemplate);
-
         const registerMessage = {
           phone: data.cellphone,
           message: registerTemplate
         };
-        // console.log("Register Message:", registerMessage);
 
         // ✅ Prevent axios.post from running twice
         if (!hasPostedRef.current) {
           hasPostedRef.current = true
-          // await axios.post(WAGW_SERVER + "/send/message", registerMessage);
-          // await axios.post("/send/message", registerMessage);
+
           await fetch('/wa/send/message', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -85,8 +81,6 @@ _This is an automated message system. Please do not reply._`;
 
           console.log("Notification sent successfully")
         }
-
-
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred")
       } finally {

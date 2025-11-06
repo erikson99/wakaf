@@ -89,7 +89,7 @@ export default function LandingPage() {
 
             <Card className="border-2 border-green-600">
               <CardHeader>
-                <CardTitle className="text-center mt-4 text-green-900">Rekening Pembangunan Masjid Qoryatussalam</CardTitle>
+                <CardTitle className="text-center mt-4 text-green-900">Rekening Pembangunan <br/>Masjid Qoryatussalam</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-center text-gray-600">

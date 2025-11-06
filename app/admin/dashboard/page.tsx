@@ -62,7 +62,13 @@ export default async function AdminDashboardPage() {
           <TabsContent value="donations" className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-green-900">Manajemen Wakaf</h1>
-              <p className="mt-2 text-green-600">View and manage all wakaf registrations</p>
+              <div className="flex justify-between items-center mt-2 text-green-600">
+                <p className="mt-2 text-green-600">View and manage all wakaf registrations</p>
+                <p>
+                  Current Admin:{" "}
+                  <span className="font-bold text-green-900">{adminUser?.name}</span>
+                </p>
+              </div>
             </div>
             <DonationDataTable initialData={donations || []} />
           </TabsContent>
@@ -70,7 +76,13 @@ export default async function AdminDashboardPage() {
           <TabsContent value="users" className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-green-900">User Management</h1>
-              <p className="mt-2 text-gray-600">Add and remove admin users</p>
+              <div className="flex justify-between items-center mt-2 text-green-600">
+                <p>Add and remove admin users</p>
+                <p>
+                  Current Admin:{" "}
+                  <span className="font-bold text-green-900">{adminUser?.name}</span>
+                </p>
+              </div>
             </div>
             <UserManagement initialUsers={adminUsers || []} currentUserId={user.user.id} />
           </TabsContent>
