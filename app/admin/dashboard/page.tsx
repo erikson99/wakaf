@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 import { DonationDataTable } from "@/components/admin/donation-data-table"
 import { AdminHeader } from "@/components/admin/admin-header"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
 import { UserManagement } from "@/components/admin/user-management"
 import { HandCoins, Users } from "lucide-react"
 
@@ -63,12 +64,18 @@ export default async function AdminDashboardPage() {
             <div>
               <h1 className="text-3xl font-bold text-green-900">Manajemen Wakaf</h1>
               <div className="flex justify-between items-center mt-2 text-green-600">
-                <p className="mt-2 text-green-600">View and manage all wakaf registrations</p>
+                <p className="mt-2 text-green-600">View and manage all wakaf registrations</p><br/>
                 <p>
-                  Current Admin:{" "}
+                  Admin:{" "}
                   <span className="font-bold text-green-900">{adminUser?.name}</span>
                 </p>
               </div>
+              <br/>
+              <ul>
+                <li><Badge className="bg-yellow-100 text-yellow-800">New = Register komitmen wakaf</Badge></li>
+                <li><Badge className="bg-green-100 text-green-800">Confirmed = Sudah Upload bukti transfer</Badge></li>
+                <li><Badge className="bg-blue-100 text-blue-800">Done = Voucher terkirim</Badge></li>
+              </ul>
             </div>
             <DonationDataTable initialData={donations || []} />
           </TabsContent>
@@ -79,7 +86,7 @@ export default async function AdminDashboardPage() {
               <div className="flex justify-between items-center mt-2 text-green-600">
                 <p>Add and remove admin users</p>
                 <p>
-                  Current Admin:{" "}
+                  Admin:{" "}
                   <span className="font-bold text-green-900">{adminUser?.name}</span>
                 </p>
               </div>
