@@ -43,13 +43,13 @@ export default function LandingPage() {
           {/* CTA Buttons */}
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link href="/donate">
-              <Button size="lg" className="text-md text-yellow-300 bg-green-600 hover:bg-green-700" style={{ cursor: 'pointer' }}>
+              <Button size="lg" className="text-md text-yellow-300 bg-green-600 hover:bg-green-700" style={{ cursor: 'pointer' }} title="Pendaftaran Komitmen Wakaf">
                 <NotebookPen className="h-4 w-4 text-yellow-300" />
                 Registrasi
               </Button>
             </Link>
             <Link href="/confirm">
-              <Button size="lg" variant="outline" className="text-md text-green-700 hover:text-green-900" style={{ cursor: 'pointer' }}>
+              <Button size="lg" variant="outline" className="text-md text-green-700 hover:text-green-900" style={{ cursor: 'pointer' }} title="Upload Bukti Transfer">
                 <CalendarCheck className="h-4 w-4 text-green-700" />
                 Konfirmasi
               </Button>
@@ -63,31 +63,33 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <h3 className="text-center text-3xl font-bold text-green-900">Wakaf Tunai</h3>
           <div className="mt-12 grid gap-8 md:grid-cols-3 lg:grid-cols-3">
-            <Card>
+            <Card className="border-2 border-green-600">
               <CardHeader>
-                <CardTitle className="text-center mt-4">Cash Waqf/Waqf al-Nuqud</CardTitle>
+                <CardTitle className="text-center mt-4 text-green-900">Cash Waqf/Waqf al-Nuqud</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600">
                   Wakaf yang dilakukan seseorang, kelompok orang, lembaga atau badan hukum dalam bentuk uang tunai, yang digunakan untuk kepentingan ibadah dan/atau kesejahteraan umat sesuai syariah.
-                  {/* Wakaf Tunai merupakan pengembangan wakaf dari yang semula berupa aset tidak bergerak (tanah dan bangunan), menjadi aset bergerak seperti uang. */}
                 </p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-2 border-green-600">
               <CardHeader>
-                <CardTitle className="text-center mt-4">Hadits</CardTitle>
+                <CardTitle className="text-center mt-4 text-green-900">Hadits</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
-                  <i>"Barangsiapa yang membangun MASJID ikhlas karena ALLAH maka ALLAH akan membangunkan baginya yang serupa dengannya di surga." (H.R. Muslim)</i>
+                <p className="text-sm text-right text-gray-600">
+                  قَالَ رَسُولُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ: مَنْ بَنَى مَسْجِدًا بَنَى اللَّهُ لَهُ مِثْلَهُ  فِي الجَنَّةِ
+                </p>
+                <p className="text-sm text-center text-gray-600">
+                  <i>"Barang siapa yang membangun MASJID karena Allah, maka Allah bangunkan dia istana di surga." (H.R Bukhari & Muslim)</i>
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-2 border-green-600">
               <CardHeader>
-                <CardTitle className="text-center mt-4">Rekening Pembangunan Masjid Qoryatussalam</CardTitle>
+                <CardTitle className="text-center mt-4 text-green-900">Rekening Pembangunan Masjid Qoryatussalam</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-center text-gray-600">

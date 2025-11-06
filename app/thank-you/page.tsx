@@ -200,7 +200,7 @@ _This is an automated message system. Please do not reply._`;
               </Link>
 
               {/* Back to Home */}
-              <div className="text-center">
+              <div className="mt-5 text-center">
                 <Link href="/" className="text-md text-green-600 hover:underline">
                   Kembali ke Beranda
                 </Link>

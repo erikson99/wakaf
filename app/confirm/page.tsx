@@ -3,20 +3,18 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { Upload, CalendarCheck, ScanBarcode, CloudUpload } from "lucide-react"
-import axios from "axios";
 import Swal from "sweetalert2";
 
 
-// Global baseURL
-axios.defaults.baseURL = "http://57.129.103.176:1799/";
-
 export default function ConfirmPage() {
+  const router = useRouter()
   const [uniqueId, setUniqueId] = useState("")
   const [proofFile, setProofFile] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -65,16 +63,12 @@ export default function ConfirmPage() {
       formData.append("unique_id", uniqueId)
       formData.append("proof_file", proofFile)
 
-      console.log("Submitting donation confirmation with file:", proofFile.name)
-
       const response = await fetch("/api/donations/confirm", {
         method: "POST",
         body: formData,
       })
 
       const data = await response.json()
-
-      console.log("Confirmation response:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to confirm!")
@@ -114,12 +108,7 @@ export default function ConfirmPage() {
 
 
       console.log("Donation confirmed successfully")
-      // alert("Wakaf berhasil dikonfirmasi!")
-      // Swal.fire({
-      //   title: "Konfirmasi Wakaf",
-      //   text: "Wakaf berhasil dikonfirmasi!",
-      //   icon: "success",
-      // });
+
       Swal.fire({
         title: "Konfirmasi Wakaf",
         text: "Bukti Transfer berhasil di-upload!",
@@ -127,12 +116,15 @@ export default function ConfirmPage() {
         imageWidth: 100,
         imageHeight: 100,
         imageAlt: "Jazaakallaah",
+        confirmButtonColor: "#00A63E",
       });
-
 
       setUniqueId("")
       setProofFile(null)
       setFileName("")
+
+      router.push("/")
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred"
       console.error("Confirmation error:", errorMessage)

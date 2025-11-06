@@ -39,12 +39,20 @@ export default function DonatePage() {
     setError(null)
     setIsLoading(true)
 
+    // Remove any accidental "62" prefix typed by user
+    if (formData.cellphone.startsWith("62")) formData.cellphone = formData.cellphone.slice(2)
+    // ✅ remove leading zero
+    if (formData.cellphone.startsWith("0")) formData.cellphone = formData.cellphone.slice(1)
+
+    const fullPhone = `62${formData.cellphone}`
+
     try {
       const response = await fetch("/api/donations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
+          cellphone: fullPhone,
           quantity: Number.parseInt(formData.quantity.toString()),
           grand_total: grandTotal,
         }),
@@ -129,16 +137,22 @@ export default function DonatePage() {
                 <Label htmlFor="cellphone">
                   <Smartphone className="h-4 w-4 text-yellow-700" />
                   No. HP *</Label>
-                <Input
-                  id="cellphone"
-                  name="cellphone"
-                  type="tel"
-                  placeholder="No. HP"
-                  value={formData.cellphone}
-                  onChange={handleChange}
-                  required
-                  disabled={isLoading}
-                />
+                  <div className=" flex items-center px-3 py-2 bg-background">
+
+                  <span className="text-green-700 text-sm select-none mr-1">+62 </span>
+                  <Input
+                    id="cellphone"
+                    name="cellphone"
+                    type="tel"
+                    placeholder="No. HP untuk Konfirmasi"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={formData.cellphone}
+                    onChange={handleChange}
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
               </div>
 
               {/* Quantity */}
@@ -164,6 +178,15 @@ export default function DonatePage() {
                   <span className="text-lg font-semibold text-green-900">Total Wakaf:</span>
                   <span className="text-2xl font-bold text-green-700">{grandTotal.toLocaleString("id-ID", { minimumFractionDigits: 0 })}</span>
                 </div>
+              </div>
+
+              <div className="rounded-lg bg-green-50 p-4">
+                  <p className="text-md text-right font-semibold text-green-700">
+                  .قَالَ رَسُولُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ: مَنْ بَنَى مَسْجِدًا بَنَى اللَّهُ لَهُ مِثْلَهُ  فِي الجَنَّةِ
+                  </p>
+                  <p className="mt-1 text-sm text-center text-gray-600">
+                    <i>"Barang siapa yang membangun MASJID karena Allah, maka Allah bangunkan dia istana di surga." (H.R Bukhari & Muslim)</i>
+                  </p>
               </div>
 
               {/* Error Message */}
