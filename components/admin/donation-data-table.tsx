@@ -251,7 +251,7 @@ _This is an automated message system. Please do not reply._`;
           />
         </div>
 
-        <div className="w-full sm:w-48">
+        <div className="w-full sm:w-48 md:w-64 lg:w-80 xl:w-96">
           <label className="block text-sm font-medium text-green-700">Status</label>
           <Select
             value={statusFilter}
@@ -285,6 +285,7 @@ _This is an automated message system. Please do not reply._`;
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Jumlah</TableHead>
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Total</TableHead>
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Status</TableHead>
+              <TableHead className="px-6 py-3 text-center text-sm font-semibold text-green-900">Tanggal</TableHead>
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Bukti Transfer</TableHead>
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Voucher</TableHead>
               <TableHead className="px-6 py-3 text-center text-sm font-semibold text-green-900">Actions</TableHead>
@@ -322,6 +323,9 @@ _This is an automated message system. Please do not reply._`;
                     >
                       {donation.status}
                     </Badge>
+                  </TableCell>
+                  <TableCell className="px-6 py-4 text-sm text-center">
+                    {new Date(donation.created_at).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: "Asia/Jakarta" }).replace(",", "")}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-sm text-center">
                     {donation.proof_of_transfer ? (

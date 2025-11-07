@@ -49,7 +49,8 @@ export default async function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50 text-green-700">
       <AdminHeader userEmail={user.user.email || ""} />
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      {/* <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"> */}
+      <main className="mx-auto max-w-full px-4 py-8 sm:px-6 lg:px-8">
         <Tabs defaultValue="donations" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 md:w-auto">
             <TabsTrigger value="donations" className="text-green-900">
