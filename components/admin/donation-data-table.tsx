@@ -6,11 +6,12 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Edit2, Trash2, CheckCircle, Eye, SearchCheck, PencilRuler, IdCard } from "lucide-react"
+import { Edit2, Trash2, CheckCircle, Eye, SearchCheck, PencilRuler, IdCard, Upload } from "lucide-react"
 import { EditDonationDialog } from "./edit-donation-dialog"
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog"
 import { ProofViewerDialog } from "./proof-viewer-dialog"
 import { CertificateViewerDialog } from "./certificate-viewer-dialog"
+import { UploadProofDialog } from "./upload-proof-dialog"
 import { WAGW_SERVER } from "@/app/app.config"
 
 
@@ -38,6 +39,8 @@ export function DonationDataTable({ initialData }: { initialData: Donation[] }) 
   const [editingDonation, setEditingDonation] = useState<Donation | null>(null)
   const [deletingDonation, setDeletingDonation] = useState<Donation | null>(null)
   const [viewingProof, setViewingProof] = useState<Donation | null>(null)
+  const [uploadingProof, setUploadingProof] = useState<Donation | null>(null)
+
   const [confirmingDonation, setConfirmingDonation] = useState<string | null>(null)
   const [generateCertificate, setGenerateCertificate] = useState<string | null>(null)
   const [viewingCertificate, setViewingCertificate] = useState<Donation | null>(null)
@@ -178,6 +181,45 @@ _This is an automated message system. Please do not reply._`;
     }
   }
 
+
+  const refreshDonations = async () => {
+    try {
+      const response = await fetch("/api/admin/donations")
+      if (!response.ok) throw new Error("Failed to fetch donations")
+      const data = await response.json()
+
+      console.log("Donations refreshed:", data)
+
+      setDonations(data)
+      console.log("Donations refreshed:", data)
+    } catch (error) {
+      console.error("Error refreshing donations:", error)
+    }
+  }
+
+  const handleUploadProofComplete = async (url: string) => {
+    if (!uploadingProof) return
+
+    try {
+      const response = await fetch(`/api/admin/donations/${uploadingProof.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ proof_of_transfer: url }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) throw new Error(data.error || "Failed to save proof")
+
+      setDonations((prev) => prev.map((d) => (d.id === uploadingProof.id ? { ...d, proof_of_transfer: url } : d)))
+      await refreshDonations()
+
+      setUploadingProof(null)
+    } catch (error) {
+      alert("Error saving proof: " + (error instanceof Error ? error.message : "Unknown error"))
+    }
+  }
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Done":
@@ -261,7 +303,7 @@ _This is an automated message system. Please do not reply._`;
                   <TableCell className="px-6 py-4 text-sm font-mono">{((currentPage-1)*ITEMS_PER_PAGE)+(index+1)}</TableCell>
                   <TableCell className="px-6 py-4 text-sm font-mono">{donation.unique_id}</TableCell>
                   <TableCell className="px-6 py-4 text-sm">{donation.name}</TableCell>
-                  <TableCell className="px-6 py-4 text-sm">{donation.address}</TableCell>
+                  <TableCell className="px-6 py-4 text-sm whitespace-normal break-words">{donation.address}</TableCell>
                   <TableCell className="px-6 py-4 text-sm">{donation.cellphone}</TableCell>
                   <TableCell className="px-6 py-4 text-sm text-right font-semibold ">{donation.quantity}</TableCell>
                   <TableCell className="px-6 py-4 text-sm text-right font-semibold">
@@ -331,6 +373,20 @@ _This is an automated message system. Please do not reply._`;
                         >
                           <IdCard className="h-4 w-4" />
                           {generateCertificate === donation.id ? "Generating..." : ""}
+                        </Button>
+                      )}
+
+                      {/* {donation.status === "New" && ( */}
+                      {!donation.proof_of_transfer && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setUploadingProof(donation)}
+                          className="gap-1 text-green-600 hover:text-green-700"
+                          style={{ cursor: "pointer" }}
+                          title="Upload Proof"
+                        >
+                          <Upload className="h-4 w-4" />
                         </Button>
                       )}
 
@@ -413,6 +469,12 @@ _This is an automated message system. Please do not reply._`;
 
       {viewingProof && <ProofViewerDialog donation={viewingProof} onClose={() => setViewingProof(null)} />}
       {viewingCertificate && <CertificateViewerDialog donation={viewingCertificate} onClose={() => setViewingCertificate(null)} />}
+
+      <UploadProofDialog
+        donation={uploadingProof}
+        onClose={() => setUploadingProof(null)}
+        onUploadComplete={handleUploadProofComplete}
+      />
     </div>
   )
 }
