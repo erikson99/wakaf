@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { UserManagement } from "@/components/admin/user-management"
 import { HandCoins, Users } from "lucide-react"
+import DonationSummaryTable from "@/components/admin/donation-summary-table"
+
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient()
@@ -71,12 +73,18 @@ export default async function AdminDashboardPage() {
                   <span className="font-bold text-green-900">{adminUser?.name}</span>
                 </p>
               </div>
-              <br/>
+
+              <div className="p-5">
+                <h5 className="text-md font-bold text-green-900 mb-2">Summary</h5>
+                <DonationSummaryTable data={donations} />
+              </div>
+              <span>
               <ul>
                 <li><Badge className="bg-yellow-100 text-yellow-800">New = Register komitmen wakaf</Badge></li>
                 <li><Badge className="bg-green-100 text-green-800">Confirmed = Sudah Upload bukti transfer</Badge></li>
                 <li><Badge className="bg-blue-100 text-blue-800">Done = Voucher terkirim</Badge></li>
               </ul>
+              </span>
             </div>
             <DonationDataTable initialData={donations || []} />
           </TabsContent>
