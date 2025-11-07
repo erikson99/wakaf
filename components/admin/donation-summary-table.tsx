@@ -68,59 +68,84 @@ const DonationSummaryTable: React.FC<DonationSummaryTableProps> = ({ data }) => 
     }
   }
 
+  // 📘 Descriptions for each status
+  const statusDescriptions: Record<string, string> = {
+    New: "Sudah Register komitmen wakaf.",
+    Confirmed: "Sudah Upload bukti transfer.",
+    Done: "Voucher terkirim",
+  }
+
   // 🧱 Render
   return (
-    <div className="mt-5 overflow-x-auto">
-      <table className="min-w-xl border border-gray-300 text-xs rounded-md overflow-hidden">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="border px-3 py-2 text-center">Status</th>
-            <th className="border px-3 py-2 text-right">Record</th>
-            <th className="border px-3 py-2 text-right">Voucher</th>
-            <th className="border px-3 py-2 text-right">Total</th>
-            <th className="border px-3 py-2 text-right">% of Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {summaryRows.map((row) => (
-            // <tr key={row.status} className="even:bg-gray-50">
-            <tr key={row.status} className={getColor(row.status)}>
-              <td className="border px-3 py-2">
-                <Badge className={getColor(row.status)}>{row.status}</Badge>
-              </td>
-              <td className="border px-3 py-2 text-right">{row.record}</td>
-              <td className="border px-3 py-2 text-right">{row.qty}</td>
-              <td className="border px-3 py-2 text-right">
-                {row.total.toLocaleString("id-ID")}
-              </td>
-              <td className="border px-3 py-2">
-                <div className="flex items-center justify-end gap-2">
-                  {/* <div className="w-24 bg-gray-200 h-2 rounded-full overflow-hidden">
-                    <div
-                      className={`${getColor(row.status)} h-2`}
-                      style={{ width: `${row.percentage}%` }}
-                    />
-                  </div> */}
-                  <span className="w-12 text-right text-green-700 font-bold">
-                    {row.percentage.toFixed(1)}%
-                  </span>
-                </div>
-              </td>
+    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Summary Table */}
+      <div className="md:col-span-2 overflow-x-auto">
+        <table className="min-w-xl border border-gray-300 text-xs rounded-md overflow-hidden">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border px-3 py-2 text-center">Status</th>
+              <th className="border px-3 py-2 text-right">Record</th>
+              <th className="border px-3 py-2 text-right">Voucher</th>
+              <th className="border px-3 py-2 text-right">Total</th>
+              <th className="border px-3 py-2 text-right">% of Total</th>
             </tr>
+          </thead>
+          <tbody>
+            {summaryRows.map((row) => (
+              // <tr key={row.status} className="even:bg-gray-50">
+              <tr key={row.status} className={getColor(row.status)}>
+                <td className="border px-3 py-2">
+                  <Badge className={getColor(row.status)}>{row.status}</Badge>
+                </td>
+                <td className="border px-3 py-2 text-right">{row.record}</td>
+                <td className="border px-3 py-2 text-right">{row.qty}</td>
+                <td className="border px-3 py-2 text-right">
+                  {row.total.toLocaleString("id-ID")}
+                </td>
+                <td className="border px-3 py-2">
+                  <div className="flex items-center justify-end gap-2">
+                    {/* <div className="w-24 bg-gray-200 h-2 rounded-full overflow-hidden">
+                      <div
+                        className={`${getColor(row.status)} h-2`}
+                        style={{ width: `${row.percentage}%` }}
+                      />
+                    </div> */}
+                    <span className="w-12 text-right text-green-700 font-bold">
+                      {row.percentage.toFixed(1)}%
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="bg-gray-50 font-bold">
+            <tr>
+              <td className="border px-3 py-2 text-center">Grand Total</td>
+              <td className="border px-3 py-2 text-right">{totalRecord}</td>
+              <td className="border px-3 py-2 text-right">{totalQty}</td>
+              <td className="border px-3 py-2 text-right">
+                {totalDonation.toLocaleString("id-ID")}
+              </td>
+              <td className="border px-3 py-2 text-right">100%</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      {/* Status Descriptions */}
+      <div className="bg-gray-50 border border-gray-200 rounded-md p-4">
+        <h2 className="text-xs font-semibold text-green-800 mb-3">Status Descriptions</h2>
+        <ul className="space-y-3 text-xs text-gray-700">
+          {Object.entries(statusDescriptions).map(([status, desc]) => (
+            <li key={status} className="flex items-start gap-2">
+              <div>
+                <Badge className={getColor(status)}>{status}</Badge>
+                <span className="ml-2 text-gray-600">{desc}</span>
+              </div>
+            </li>
           ))}
-        </tbody>
-        <tfoot className="bg-gray-50 font-bold">
-          <tr>
-            <td className="border px-3 py-2 text-center">Grand Total</td>
-            <td className="border px-3 py-2 text-right">{totalRecord}</td>
-            <td className="border px-3 py-2 text-right">{totalQty}</td>
-            <td className="border px-3 py-2 text-right">
-              {totalDonation.toLocaleString("id-ID")}
-            </td>
-            <td className="border px-3 py-2 text-right">100%</td>
-          </tr>
-        </tfoot>
-      </table>
+        </ul>
+      </div>
     </div>
   )
 }
