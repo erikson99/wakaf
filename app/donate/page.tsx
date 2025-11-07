@@ -30,7 +30,8 @@ export default function DonatePage() {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "quantity" ? Math.max(1, Number.parseInt(value) || 1) : value,
+      // [name]: name === "quantity" ? Math.max(1, Number.parseInt(value) || 1) : value,
+      [name]: value, // just store raw value
     }))
   }
 
@@ -169,6 +170,12 @@ export default function DonatePage() {
                   onChange={handleChange}
                   required
                   disabled={isLoading}
+                  onBlur={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      quantity: Number(prev.quantity) || 1,
+                    }))
+                  }
                 />
               </div>
 
