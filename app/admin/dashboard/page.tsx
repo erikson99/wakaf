@@ -76,7 +76,7 @@ export default async function AdminDashboardPage() {
 
               <div className="p-5">
                 <h5 className="text-md font-bold text-green-900 mb-2">Summary</h5>
-                <DonationSummaryTable data={donations} />
+                <DonationSummaryTable data={donations || []} />
               </div>
             </div>
             <DonationDataTable initialData={donations || []} />
