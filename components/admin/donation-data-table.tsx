@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Edit2, Trash2, CheckCircle, Eye, SearchCheck, PencilRuler, IdCard, Upload } from "lucide-react"
+import { Edit2, Trash2, CheckCircle, Eye, SearchCheck, PencilRuler, IdCard, Upload, TicketCheck, CheckCheck } from "lucide-react"
 import { EditDonationDialog } from "./edit-donation-dialog"
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog"
 import { ProofViewerDialog } from "./proof-viewer-dialog"
 import { CertificateViewerDialog } from "./certificate-viewer-dialog"
 import { UploadProofDialog } from "./upload-proof-dialog"
 import { WAGW_SERVER } from "@/app/app.config"
+import { createClient } from "@/lib/supabase/client"
 
 
 interface Donation {
@@ -27,6 +28,7 @@ interface Donation {
   created_at: string
   proof_of_transfer?: string
   certificate_url?: string
+  voucher_sent?: boolean
 }
 
 const ITEMS_PER_PAGE = 10
@@ -44,6 +46,7 @@ export function DonationDataTable({ initialData }: { initialData: Donation[] }) 
   const [confirmingDonation, setConfirmingDonation] = useState<string | null>(null)
   const [generateCertificate, setGenerateCertificate] = useState<string | null>(null)
   const [viewingCertificate, setViewingCertificate] = useState<Donation | null>(null)
+  const [markSent, setMarkSent] = useState<Donation | null>(null)
 
   const filteredDonations = useMemo(() => {
     return donations.filter((donation) => {
@@ -161,6 +164,47 @@ _This is an automated message system. Please do not reply._`;
 
     } catch (error) {
       alert("Error confirming donation: " + (error instanceof Error ? error.message : "Unknown error"))
+    } finally {
+      setConfirmingDonation(null)
+    }
+  }
+
+  const handleSent = async (donation: Donation) => {
+    try {
+      setConfirmingDonation(donation.id)
+      const response = await fetch("/api/admin/donations/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: donation.id
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) throw new Error(data.error || "Failed to confirm donation")
+
+      setDonations((prev) =>
+        prev.map((d) =>
+          d.id === donation.id
+            ? {
+                ...d,
+                voucher_sent: true,
+              }
+            : d,
+        ),
+      )
+
+      const supabase = createClient()
+      const { error } = await supabase
+        .from("donations")
+        .update({ voucher_sent: true })
+        .eq("id", donation.id);
+
+      console.log("Voucher sent successfully")
+
+    } catch (error) {
+      alert("Error marking voucher sent: " + (error instanceof Error ? error.message : "Unknown error"))
     } finally {
       setConfirmingDonation(null)
     }
@@ -288,6 +332,7 @@ _This is an automated message system. Please do not reply._`;
               <TableHead className="px-6 py-3 text-center text-sm font-semibold text-green-900">Tanggal</TableHead>
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Bukti Transfer</TableHead>
               <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Voucher</TableHead>
+              <TableHead className="px-6 py-3 text-left text-sm font-semibold text-green-900">Sent</TableHead>
               <TableHead className="px-6 py-3 text-center text-sm font-semibold text-green-900">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -360,6 +405,22 @@ _This is an automated message system. Please do not reply._`;
                     )}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-sm">
+                    {donation.voucher_sent ? (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setMarkSent(donation)}
+                        className="gap-1 text-blue-600 hover:text-blue-700"
+                        style={{ cursor: 'pointer' }}
+                        title="Voucher Sent"
+                      >
+                        <CheckCheck className="h-4 w-4" />
+                      </Button>
+                    ) : (
+                      <span className="text-gray-400">Pending</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="px-6 py-4 text-sm">
                     <div className="flex gap-2">
                       <Button variant="ghost" size="sm" onClick={() => setEditingDonation(donation)} className="gap-1" style={{ cursor: 'pointer' }} title="Edit">
                         <PencilRuler className="h-4 w-4" />
@@ -406,6 +467,21 @@ _This is an automated message system. Please do not reply._`;
                         >
                           <CheckCircle className="h-4 w-4" />
                           {confirmingDonation === donation.id ? "Confirming..." : ""}
+                        </Button>
+                      )}
+
+                      {donation.status === "Done" && donation.voucher_sent === false && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleSent(donation)}
+                          disabled={confirmingDonation === donation.id}
+                          className="gap-1 text-purple-600 hover:text-purple-700"
+                          style={{ cursor: 'pointer' }}
+                          title="Voucher Sent"
+                        >
+                          <TicketCheck className="h-4 w-4" />
+                          {confirmingDonation === donation.id ? "Marking..." : ""}
                         </Button>
                       )}
 
